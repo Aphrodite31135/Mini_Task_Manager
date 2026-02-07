@@ -2,7 +2,7 @@
 ### 요약
 INSERT 트랜잭션을 열고 데이터를 저장한 뒤 커밋하고, 새 트랜잭션을 열어 저장된 데이터를 다시 조회한 후 읽기 트랜잭션을 종료했다.
 ### 로그
-'''html
+```html
 BEGIN (implicit)
 <!-- 트랜잭션 시작 (모든 DB 작업은 트랜잭션 안에서 시작) -->
 INSERT INTO tasks (title, is_done) VALUES (?, ?)
@@ -24,13 +24,13 @@ WHERE tasks.id = ?
 <!-- WHERE tasks.id = 4 (DB가 id를 만들어서 ORM에게 다시 알려주는 과정) -->
 ROLLBACK
 <!-- 트랜잭션 종료 / 데이터를 되돌린게 아님 -->
-'''
+```
 
 ## test_transaction.py
 ### 요약
 같은 세션에서는 commit 전 데이터도 조회되지만, rollback 이후에는 DB에 반영되지 않은 데이터는 사라진다. 
 ### 로그
-'''html
+```html
 BEGIN (implicit)
 <!-- 새로운 트랜잭션 시작-->
 SELECT tasks.id AS tasks_id, tasks.title AS tasks_title, tasks.is_done AS tasks_is_done FROM tasks
@@ -54,13 +54,13 @@ rollback 후: [<Day2_SQLAlchemy_CRUD.db.models.Task object at 0x000001A89A74D8E0
 <!-- 이전 실험에서 commit된 데이터들 / 이번에 add한 task X
     → 전체 테이블 비우기 X / 이번 트랜잭션에서 한 변경만 취소 -->
 ROLLBACK
-'''
+```
 
 ## test_transaction2.py
 ### 요약
 서로 다른 세션에서는 commit 전에는 절대 데이터가 공유되지 않지만, commit 후에는 즉시 데이터가 보인다. 
 ### 로그
-'''html
+```html
 BEGIN (implicit)
 SELECT tasks.id AS tasks_id, tasks.title AS tasks_title, tasks.is_done AS tasks_is_done FROM tasks
 [generated in 0.00011s] ()
@@ -79,4 +79,4 @@ SELECT tasks.id AS tasks_id, tasks.title AS tasks_title, tasks.is_done AS tasks_
 db2 after commit: [<Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21E50>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21E20>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21DF0>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21DC0>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21E80>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21EE0>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21F10>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21EB0>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D21FA0>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D22000>, <Day2_SQLAlchemy_CRUD.db.models.Task object at 0x0000019D14D22060>]
 <!-- 데이터 개수 10개 → 11개 / db1 only가 이제 db2에서도 보임 -->
 ROLLBACK
-'''
+```
