@@ -58,7 +58,7 @@ ROLLBACK
 
 ## test_transaction2.py
 ### 요약
-~~
+서로 다른 세션에서는 commit 전에는 절대 데이터가 공유되지 않지만, commit 후에는 즉시 데이터가 보인다. 
 ### 로그
 '''html
 BEGIN (implicit)
