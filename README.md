@@ -29,3 +29,9 @@ DB, API, 트랜잭션 개념 실습용 미니 프로젝트
 ## Day2
 - SQLAlchemy ORM을 사용한 CRUD 및 트랜잭션 동작 실습
 - 세션 단위 트랜잭션 격리와 commit 시점의 중요성 이해
+
+## Day3
+- FastAPI 기반 프로젝트 구조(app / api / db / schemas) 설계
+- APIRouter를 활용한 엔드포인트 분리
+- DB 세션 의존성(get_db)과 트랜잭션(commit / rollback) 흐름 이해
+- GET /tasks, POST /tasks API 구현 및 Swagger 문서 확인
