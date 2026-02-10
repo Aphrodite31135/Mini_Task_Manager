@@ -35,3 +35,11 @@ DB, API, 트랜잭션 개념 실습용 미니 프로젝트
 - APIRouter를 활용한 엔드포인트 분리
 - DB 세션 의존성(get_db)과 트랜잭션(commit / rollback) 흐름 이해
 - GET /tasks, POST /tasks API 구현 및 Swagger 문서 확인
+
+## Day4
+- REST API 관점에서 Update / Delete 동작 정리
+- PATCH / DELETE 메서드의 역할 차이 이해
+- delete 시 id를 재정렬하거나 재사용하지 않는 이유 학습
+- 트랜잭션 책임 분리 (조회 → 검증 → commit / rollback)
+- 404, 204 등 상태 코드의 의미와 사용 기준 정리
+- API 레벨에서 예외 처리가 왜 중요한지 체감
