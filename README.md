@@ -4,27 +4,34 @@
 DB, API, 트랜잭션 개념 실습용 미니 프로젝트
 
 ## Required
-- Python, FastAPI
-- SQLAlchemy
-- SQLite / PostgreSQL
+- Python
+- FastAPI
+- SQLAlchemy (ORM)
+- SQLite (local)
 
-## 핵심 기능
-- 할 일 생성
-- 할 일 목록 조회
-- 할 일 상태 변경
-- 할 일 삭제
+## Features
+- Task 생성 (POST /tasks)
+- Task 목록 조회 (GET /tasks, Pagination 지원)
+- Task 상태 변경 (PATCH /tasks/{id})
+- Task 삭제 (DELETE /tasks/{id})
 
 ## DB
-- Task 테이블 중심 설계
-- 조회가 잦을 것으로 예상되는 칼럼 기준으로 인덱스 적용 고려
+- Task(id, title, is_done, created_at)
+- PK는 단조 증가, 재사용 X
+- 조회 패턴을 고려한 인덱스 실험 진행
 
-## 실험 계획
-- 인덱스 적용 전/후 조회 성능 비교
-- 트랜잭션 실패 시 데이터 정합성 확인
+## Architecture
+- app / api / db / schemas 구조 분리
+- Roputer ↔ Service Layer 책임 분리
+- 요청 1개 = DB Session 1개 구조
+- commit / rollback을 API 레벨에서 직접 제어
 
-## 향후 계획
-- RDS 환경을 가장한 구조로 확장
-- DynamoDB 사용 시 구조 차이 비교
+## What I Practiced
+- ORM → 실제 SQL 동작 확인
+- 트랜잭션 격리 및 rollback 실험
+- RESTful API 설계
+- 상태코드(200 / 201 / 204 / 404) 기준 정리
+- Pagination 및 응답 구조 표준화
 
 ## Day2
 - SQLAlchemy ORM을 사용한 CRUD 및 트랜잭션 동작 실습
@@ -43,3 +50,10 @@ DB, API, 트랜잭션 개념 실습용 미니 프로젝트
 - 트랜잭션 책임 분리 (조회 → 검증 → commit / rollback)
 - 404, 204 등 상태 코드의 의미와 사용 기준 정리
 - API 레벨에서 예외 처리가 왜 중요한지 체감
+
+## Day5
+- Router와 비즈니스 로직 분리를 위한 Service Layer 도입
+- HTTP 처리와 DB 로직의 책임 분리
+- Pagination(skip / limit) 구현
+- total / skip / limit / items 형태의 응답 구조 표준화
+- API 확장성을 고려한 응답 설계 경험

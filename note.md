@@ -126,3 +126,38 @@ Pydantic v2에서는 orm_mode → from_attributes 경고 발생
 - 페이지 번호
 - display_id
 - created_at 기반 순서
+
+## Day5
+### Service Layer 분리
+- router: 요청 / 응답만 (HTTP만)
+- service: 비즈니스 로직만
+- db(models): 데이터 정의
+### Pagination 추가
+1. 필요성
+- 메모리 터짐
+- 응답 느림
+- 네트워크 낭비
+- 프론트엔드 멈춤
+2. 실무적 의미
+- 서버 안정성
+- 성능
+- API 품질
+- 프론트엔드 UX
+### 응답 구조 정리
+1. 필요성
+- 프론트엔드에서 페이지 UI 만들기 쉬움
+- 전체 개수(total)를 알아야 페이지 수 계산 가능
+- API 스펙이 더 명확해짐
+2. 구조
+```json
+total=
+skip=
+limit=
+items=
+```
+3. 장점
+- 필터 추가 가능
+- 정렬 추가 가능
+- 메타데이터 확장 가능
+### 예외 처리 통일
+- 클라이언트가 항상 동일한 형태로 응답을 파싱하도록 하기 위함
