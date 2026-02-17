@@ -10,7 +10,7 @@ from fastapi import Request
 from fastapi.exceptions import HTTPException
 
 # 비동기 함수로 선언 / 예외 처리 통일
-@app.exception_handlers(HTTPException)
+@app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(
         status_code=exc.status_code,

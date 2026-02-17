@@ -1,37 +1,57 @@
 # Mini_Task_Manager
 
 ## PJ Purpose
-DB, API, 트랜잭션 개념 실습용 미니 프로젝트
+단순 CRUD 구현이 아닌,  
+DB 트랜잭션과 세션 격리를 실험하며
+데이터 정합성과 API 구조를 이해하기 위한 프로젝트.
 
-## Required
+## Tech Stack
 - Python
-- FastAPI
+- FastAPI (ASGI)
 - SQLAlchemy (ORM)
 - SQLite (local)
 
-## Features
-- Task 생성 (POST /tasks)
-- Task 목록 조회 (GET /tasks, Pagination 지원)
-- Task 상태 변경 (PATCH /tasks/{id})
-- Task 삭제 (DELETE /tasks/{id})
-
-## DB
-- Task(id, title, is_done, created_at)
-- PK는 단조 증가, 재사용 X
-- 조회 패턴을 고려한 인덱스 실험 진행
-
 ## Architecture
-- app / api / db / schemas 구조 분리
-- Roputer ↔ Service Layer 책임 분리
-- 요청 1개 = DB Session 1개 구조
-- commit / rollback을 API 레벨에서 직접 제어
+app/
+├── api/               # Router (HTTP 처리)
+├── services/          # 비즈니스 로직
+├── db/                # DB 연결 및 모델
+├── schemas.py         # 입력/출력 Schema
+└── main.py            # FastAPI 엔트리포인트
+
+### 구조 원칙
+- Router는 HTTP 레벨 책임만 담당
+- Service Layer에서 트랜잭션(commit / rollback) 제어
+- 요청 1개 = DB Session 1개
+- Schemas를 통해 API 스펙 명확화
+
+## Example Response
+```json
+{
+    "total": 0,
+    "skip": 0,
+    "limit": 0,
+    "items": [...]
+}
+```
 
 ## What I Practiced
-- ORM → 실제 SQL 동작 확인
-- 트랜잭션 격리 및 rollback 실험
-- RESTful API 설계
-- 상태코드(200 / 201 / 204 / 404) 기준 정리
-- Pagination 및 응답 구조 표준화
+
+### 1. 트랜잭션 실험
+- commit 전 / 후 데이터 가시성 확인
+- rollback 시 중간 상태 데이터 제거
+- 세션 단위 격리 실험
+
+### 2. RESTful API 설계
+- PATCH / DELETE 메서드의 의미 이해
+- 상태 코드(200 / 201 / 204 / 404) 명확화
+- Pagination(skip / limit) 적용
+
+### 3. 설계 철학
+- id는 정렬 번호가 아니라 정체성
+- id 재사용 금지
+- 트랜잭션 경계는 비즈니스 단위
+- 동작하는 코드보다 데이터 무결성이 우선
 
 ## Day2
 - SQLAlchemy ORM을 사용한 CRUD 및 트랜잭션 동작 실습
@@ -57,3 +77,9 @@ DB, API, 트랜잭션 개념 실습용 미니 프로젝트
 - Pagination(skip / limit) 구현
 - total / skip / limit / items 형태의 응답 구조 표준화
 - API 확장성을 고려한 응답 설계 경험
+
+## Future Extension
+- SQLite → RDS 확장
+- EC2 배포
+- JWT 인증 도입
+- 인덱스 성능 실험
